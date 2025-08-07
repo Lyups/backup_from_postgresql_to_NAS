@@ -5,14 +5,14 @@ ACTION="$1"
 LOG_FILE="$PWD/logs/backupAll_dev_edit.log"
 LOCAL_BACKUP_DIR="$PWD/local_backups"
 DAYS_OLD=7
-DB_NAMES=("fortest")
+DB_NAMES=("test_base1", "test_base2")
 
 BACKUP_FOLDER="backup_${ACTION}_$(date '+%Y-%m-%d_%H-%M-%S')"
 BACKUP_PATH="$LOCAL_BACKUP_DIR/$BACKUP_FOLDER"
 
 mkdir -p "$(dirname "$LOG_FILE")" "$LOCAL_BACKUP_DIR"
 
-# args for cifs
+# --- args for cifs ---
 NAS_SHARES=(
     "//NAS1/backup_folder"
     "//NAS2/backup_folder"
@@ -31,10 +31,10 @@ CREDENTIAL_FILES=(
     "/root/.NAS3"
 )
 
-# trap
+# --- trap ---
 trap "log 'Прерывание! Завершаю ...'; exit 1" SIGINT
 
-# info 
+# --- Logs and info ---
 usage() {
     echo "Использование: $0 <ACTION>"
     echo "  <ACTION> - действие: sql или backup"
@@ -59,7 +59,7 @@ finish_info() {
     log "Конец скрипта с PID $$"
 }
 
-# Main functions
+# --- Main functions ---
 mount_nas() {
     local index="$1"
     local share="${NAS_SHARES[$index]}"
@@ -157,7 +157,7 @@ upload_to_all_nas() {
     fi
 }
 
-# Logic
+# --- main block ---
 case "$ACTION" in
     sql|backup)
         start_info

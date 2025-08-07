@@ -52,7 +52,7 @@ catch {
     exit 1
 }
 
-# --- Logs ---
+# --- Logs and info ---
 function log {
     param([string]$message)
     $logEntry = "$(Get-Date -Format 'dd-MM-yyyy HH:mm:ss') - $message"
@@ -66,7 +66,6 @@ function log {
     }
 }
 
-# --- additional functions ---
 function start_info {
     log "----------------------------------------"
     log "Старт скрипта с PID $scriptPID"
